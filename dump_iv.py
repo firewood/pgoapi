@@ -67,9 +67,12 @@ def pretty_print_inventory(response_dict, monsters):
     for pokemon in sorted_pokemons:
         id = pokemon.get('pokemon_id', -1)
         name = pokemon.get('nickname', get_monster_name(monsters, str(id)))
+        attack = pokemon.get('individual_attack', 0)
+        defense = pokemon.get('individual_defense', 0)
+        stamina = pokemon.get('individual_stamina', 0)
         cp = pokemon.get('cp', -1)
         if cp > 0:
-            print(pokemon.get('individual_attack', 0), pokemon.get('individual_defense', 0), pokemon.get('individual_stamina', 0), cp, name)
+            print(attack + defense, attack, defense, stamina, cp, name)
 
 def main():
     config = init_config()
