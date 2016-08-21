@@ -46,7 +46,7 @@ def load_monsters():
 def get_monster_name(monsters, id):
     if id in monsters:
         return monsters[id]
-    return '?'
+    return u'?'
 
 def extract_pokemons(inventories):
     result = []
@@ -56,6 +56,9 @@ def extract_pokemons(inventories):
             if 'pokemon_data' in inventory_item_data:
                 result.append(inventory_item_data['pokemon_data'])
     return result
+
+def format_iv(attack, defense, stamina):
+    return ('0' + str(attack + defense))[-2:] + ('0' + str(stamina))[-2:]
 
 def pretty_print_inventory(response_dict, monsters):
     inventories = response_dict['responses']['GET_INVENTORY']['inventory_delta']['inventory_items']
@@ -72,7 +75,7 @@ def pretty_print_inventory(response_dict, monsters):
         stamina = pokemon.get('individual_stamina', 0)
         cp = pokemon.get('cp', -1)
         if cp > 0:
-            print(attack + defense, attack, defense, stamina, cp, name)
+            print(u','.join(map(unicode, [format_iv(attack, defense, stamina), attack, defense, stamina, cp, name])).encode('utf-8'))
 
 def main():
     config = init_config()
