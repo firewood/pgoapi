@@ -75,7 +75,9 @@ def pretty_print_inventory(response_dict, monsters):
         stamina = pokemon.get('individual_stamina', 0)
         cp = pokemon.get('cp', -1)
         if cp > 0:
-            print(u','.join(map(unicode, [format_iv(attack, defense, stamina), attack, defense, stamina, cp, name])).encode('utf-8'))
+#            print(u','.join(map(unicode, [format_iv(attack, defense, stamina), attack, defense, stamina, cp, name])).encode('utf-8'))
+            sys.stdout.buffer.write(u'{0:0>4} {1:>2} {2:>2} {3:>2} {4:>4} {5}\n'.format((attack + defense) * 100 + stamina, attack, defense, stamina, cp, name).encode('utf-8'))
+  
 
 def main():
     config = init_config()
