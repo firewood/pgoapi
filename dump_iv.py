@@ -75,9 +75,8 @@ def pretty_print_inventory(response_dict, monsters):
         stamina = pokemon.get('individual_stamina', 0)
         cp = pokemon.get('cp', -1)
         if cp > 0:
-#            print(u','.join(map(unicode, [format_iv(attack, defense, stamina), attack, defense, stamina, cp, name])).encode('utf-8'))
-            sys.stdout.buffer.write(u'{0:0>4} {1:>2} {2:>2} {3:>2} {4:>4} {5}\n'.format((attack + defense) * 100 + stamina, attack, defense, stamina, cp, name).encode('utf-8'))
-  
+            print(u','.join(map(unicode, [format_iv(attack, defense, stamina), attack, defense, stamina, cp, name])).encode('utf-8'))
+#            sys.stdout.buffer.write(u'{0:0>4} {1:>2} {2:>2} {3:>2} {4:>4} {5}\n'.format((attack + defense) * 100 + stamina, attack, defense, stamina, cp, name).encode('utf-8'))
 
 def main():
     config = init_config()
@@ -93,14 +92,13 @@ def main():
 
     # set player position on the earth
     api.set_position(*position)
+    api.set_authentication(provider = config['auth_service'], username = config['username'], password = config['password'])
 
-    if not api.login(config["auth_service"], config["username"], config["password"], app_simulation = True):
-        return
+    # provide the path of your pcrypt library
+#    api.set_signature_lib('libpcrypto.dylib')
 
     # get inventory
-    req = api.create_request()
-    req.get_inventory()
-    response_dict = req.call()
+    response_dict = api.get_inventory()
     pretty_print_inventory(response_dict, monsters)
 
 if __name__ == '__main__':
